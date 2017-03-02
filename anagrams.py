@@ -3,18 +3,18 @@
 from collections import defaultdict
 
 ''' 
-    Loading dictopnary with words from file using rstrip() which returns a copy of the string in which all chars have been stripped from the end of the string.
+    Loading tuple dictopnary with words from file using rstrip() which returns a copy of the string in which all chars have been stripped from the end of the string.
 '''
 def load_words(filename='words.txt'):
     with open(filename) as f:
         tuples = []
         for word in f:
-            #yield word.strip()
             tuples.append(word.strip())
     return tuples
 
 '''
     Generating anagrams from the list of words in the dictionary
+    by sorting the word alphabetically and then checking it against other words in the dictionary to see if they match up
 '''
 
 def get_anagrams(source):
