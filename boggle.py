@@ -1,6 +1,17 @@
 from copy import deepcopy
+'''
+import math
 
+def numcat(a,b):
+    return int(math.pow(10,(int(math.log(b,10)) + 1)) * a + b)
+'''
 class State(object):
+    """
+        Represents a state in the solution of the boggle
+        Attributes:
+           board: an NxN matrix reprsenting the state of the board's letters
+           moves: the sequence of letters visited so far
+    """
     def __init__(self, board, moves):
         self.board = board
         self.moves = moves
@@ -8,9 +19,11 @@ class State(object):
         
     def neighbors(self, letter, prefix_dict):
         
-        """Generate a new state by flipping one switch and its neighbors
+        """
+            Generate a new state by checking a position's surrounding letters 
+            to check if it is a word in the prefix dictionary
         
-           Input: a switch number from 0 to n - 1
+            Input: a letter position in the board
         """
         
         row = letter / self.n
@@ -27,15 +40,26 @@ class State(object):
         if letter + new_boards[row][col + 1] in prefix_dict:
             print letter + new_boards[row][col + 1]
         '''
+        
         if row > 0:
-             
             if letter + new_boards[row - 1][col] in prefix_dict:
                 new_moves.append(row - 1, col)
             if col > 0:
                 if letter + new_boards[row - 1][col - 1] in prefix_dict:
                     new_moves.append(row - 1, col - 1)
             if col < self.n - 1:
-                new_boards[row - 1][col + 1]                
+                new_boards[row - 1][col + 1]  
+            '''
+            if letter + new_boards[row - 1][col] in prefix_dict:
+                temp = numcat(row - 1, col) - (row * 6)
+                new_moves.append(temp)
+            if col > 0:
+                if letter + new_boards[row - 1][col - 1] in prefix_dict:
+                    temp = numcat(row - 1, col - 1) - (row * 6)
+                    new_moves.append(temp)
+            if col < self.n - 1:
+                new_boards[row - 1][col + 1]    
+            '''
         if row < self.n - 1:
             new_boards[row + 1][col]
         if col > 0:
@@ -55,6 +79,9 @@ def already_visited(state, visited):
     else:
         return False
         
+
+
+
 def hash(board):
     sum = 0
     
@@ -138,10 +165,11 @@ def solve(board):
         # Expand the current state by considering all possible flips
         for i in range(len(board) * len(board)):
             new_state = state.neighbors(i, prefix_dict)
-            
+            '''
             if not already_visited(new_state, visited):
                 add_to_visited(new_state, visited)
                 queue.append(new_state)
+            '''
         # for all the neighbors of the last coordinate
         #    is that neighbor a valid addition to the prefix represented by this state
         #    test if the neighbor is on the grid
@@ -162,7 +190,7 @@ def solve(board):
         
         
         '''
-        print state.moves
+        
         
 if __name__ == '__main__':
     board = [
